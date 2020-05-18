@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text("Intray",style: homePage,),
+                        Text("Ventas",style: homePage,),
                         Container(),
                       ],
                     )

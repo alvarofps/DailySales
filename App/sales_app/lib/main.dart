@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:salesapp/UserInterface/intray/intray.dart';
 import 'models/global.dart';
 
 
@@ -65,9 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   TabBarView(
                     children:[
-                      new Container(
-                        color: darkGreyColor,
-                      ),
+                      IntrayPage(),
                       new Container(
                         color: darkGreyColor,
                       ),

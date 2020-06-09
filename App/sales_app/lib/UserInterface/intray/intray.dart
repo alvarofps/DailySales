@@ -1,6 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:salesapp/UserInterface/intray/intray_to_do.dart';
-import 'package:salesapp/models/classes/venta.dart';
+import 'package:salesapp/UserInterface/intray/saleCard.dart';
+import 'package:salesapp/models/classes/sale.dart';
 import 'package:salesapp/models/global.dart';
 
 class IntrayPage extends StatefulWidget {
@@ -11,11 +13,12 @@ class IntrayPage extends StatefulWidget {
 }
 
 class _IntrayPageState extends State<IntrayPage> {
-List <Task> taskList = [];
+
+List <Venta> ventaList = [];
 
   @override
   Widget build(BuildContext context) {
-    taskList = getList();
+    ventaList = getList();
 
     return Container(
       color: darkGreyColor,
@@ -23,23 +26,24 @@ List <Task> taskList = [];
     );
   }
 
-  List<Task> getList()
+  List<Venta> getList()
   {
     for(int i = 0; i < 21; i++)
       {
-        Task t = new Task("My new task " + i.toString(), false, i.toString());
-        taskList.add(t);
+        Venta t = new Venta( DateTime.now(), "Item_" + i.toString(), Random(i).nextDouble()*100);
+        ventaList.add(t);
       }
-    return taskList;
+    return ventaList;
   }
 
-  Widget _buildListTile(BuildContext context, Task item)
+  Widget _buildListTile(BuildContext context, Venta venta)
   {
-    return ListTile(
-      key: Key(item.taskId),
-      title: IntrayTodo(
-        title: item.title,
-      )
+    return SaleCard(
+      key: UniqueKey(),
+      timeOfPurchase: venta.timeOfPurchase.toString(),
+      itemName: venta.itemName,
+      itemPrice: venta.itemPrice.toStringAsFixed(2),
+
     );
   }
 
@@ -51,27 +55,16 @@ List <Task> taskList = [];
       ),
       child: ReorderableListView(
         padding: EdgeInsets.only(top: 210.0),
-        children: taskList.map((Task item) => _buildListTile(context, item)).toList(),
+        children: ventaList.map((Venta item) => _buildListTile(context, item)).toList(),
         onReorder: (oldIndex, newIndex){
           setState(() {
-            Task item = taskList[oldIndex];
-            taskList.remove(item);
-            taskList.insert(newIndex, item);
+            Venta item = ventaList[oldIndex];
+            ventaList.remove(item);
+            ventaList.insert(newIndex, item);
           });
         },
       ),
     );
   }
-
-//  void _onReorder(int oldIndex, int newIndex)
-//  {
-//    setState(() {
-//      if(newIndex > oldIndex){
-//        newIndex -= 1;
-//      }
-//      final Task item = taskList.removeAt(oldIndex);
-//      taskList.insert(newIndex, item);
-//    });
-//  }
 
 }

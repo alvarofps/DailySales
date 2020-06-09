@@ -1,62 +1,69 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:salesapp/UserInterface/intray/intray.dart';
+import 'package:flutter/rendering.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:salesapp/models/fab_bottom_app_bar.dart';
+import 'package:salesapp/models/fab_with_icons.dart';
+import 'package:salesapp/models/layout.dart';
+import 'package:salesapp/UserInterface/intray/saleCard.dart';
+import 'package:salesapp/services/graphQldata.dart';
 import 'models/global.dart';
+import 'package:flutter/foundation.dart';
 
-
-void main() {
-  runApp(MyApp());
+void main(){
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+      GraphQLProvider(
+        client: graphQlObject.client,
+        child: CacheProvider(
+          child: MaterialApp(
+            theme: ThemeData.dark(),
+            home: SalesPage(),
+          ),
+        ),
+      )
+  );
 }
 
+
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Daily sales',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Simple app to put sales in'),
+
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
+
+  MyHomePage({Key key, this.title}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  GraphQLClient client;
+  final TextEditingController controller = new TextEditingController();
+
+  initMethod(context) {
+    client = GraphQLProvider.of(context).value;
+  }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => initMethod(context));
       return new MaterialApp(
         home: SafeArea(
           child: DefaultTabController(
@@ -66,12 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   TabBarView(
                     children:[
-                      IntrayPage(),
+                      SalesData(),
                       new Container(
-                        color: darkGreyColor,
+                        color: darkBlue,
                       ),
                       new Container(
-                        color: darkGreyColor,
+                        color: darkBlue,
                       ),
                     ],
                   ),
@@ -99,8 +106,53 @@ class _MyHomePageState extends State<MyHomePage> {
                     margin: EdgeInsets.only(top: 110, left: 160),
                     child: FloatingActionButton(
                       child: Icon(Icons.add, size: 70,),
-                      backgroundColor: redButtonColor,
-                      onPressed: (){},
+                      backgroundColor: lightBlue,
+                      onPressed: (){
+                        showDialog(
+                            context: context,
+                        builder: (BuildContext context1){
+                              return AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                                title: Text("Nueva Venta"),
+                                content: Form(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      TextField(
+                                        controller: controller,
+                                        decoration: InputDecoration(labelText: "Venta")
+                                      ),
+                                      Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(top: 10.0),
+                                          child: RaisedButton(
+                                            elevation: 7,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(12),
+                                            ),
+                                            color: blackText,
+                                            onPressed: () async{
+                                              await client.mutate(
+                                                  MutationOptions(
+                                                    documentNode: gql(addVentaByItemId(controller.text), ),
+                                                  ),
+                                              );
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              "Add",
+                                              style: TextStyle(color: newWhite),
+                                            ),
+                                          ),
+                                        )
+                                      )
+                                    ],
+                                  ),
+                                )
+                              );
+                        });
+                      },
                     ),
                   )
                 ]
@@ -115,15 +167,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       Tab(icon: new Icon(Icons.search),
                       ),
                     ],
-                  labelColor: darkGreyColor,
-                  unselectedLabelColor: Colors.white,
+                  labelColor: brightBlue,
+                  unselectedLabelColor: mediumBlue,
                   indicatorSize: TabBarIndicatorSize.label,
                   indicatorPadding:   EdgeInsets.all(5.0),
-                  indicatorColor: Colors.blueAccent,
+                  indicatorColor: brightBlue,
                 ),
                   backgroundColor: Colors.white,
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: darkBlue,
             ),
           ),
         ),
@@ -131,42 +183,266 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class Choice {
-  const Choice({this.title, this.icon});
+class SalesData extends StatefulWidget{
+  SalesData({Key key}) : super(key: key);
 
-  final String title;
-  final IconData icon;
-}
-
-const List<Choice> choices = const <Choice>[
-  const Choice(title: 'CAR', icon: Icons.call),
-  const Choice(title: 'BICYCLE', icon: Icons.directions_bike),
-  const Choice(title: 'BOAT', icon: Icons.directions_boat),
-  const Choice(title: 'BUS', icon: Icons.directions_bus),
-  const Choice(title: 'TRAIN', icon: Icons.directions_railway),
-  const Choice(title: 'WALK', icon: Icons.directions_walk),
-];
-
-class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({Key key, this.choice}) : super(key: key);
-
-  final Choice choice;
 
   @override
+  _SalesDataState createState() => _SalesDataState();
+
+
+}
+
+class _SalesDataState extends State<SalesData>{
+//  GraphQLClient client;
+//  initMethod(context) {
+//    client = GraphQLProvider.of(context).value;
+//  }
+  @override
   Widget build(BuildContext context) {
-    final TextStyle textStyle = Theme.of(context).textTheme.headline4;
-    return Card(
-      color: Colors.white,
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(choice.icon, size: 128.0, color: textStyle.color),
-            Text(choice.title, style: textStyle),
-          ],
+
+
+    return Theme(
+      data: ThemeData(
+        canvasColor: Colors.transparent
+      ),
+      child: Scaffold(
+        body: Center(
+          child: Query(
+            options: QueryOptions(documentNode: gql(fetchQuery()), pollInterval: 1),
+            builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore }){
+              if (result.hasException) {
+                return Text(result.exception.toString());
+              }
+
+              if (result.loading) {
+                return Center(child: CircularProgressIndicator(),);
+              }
+
+              return ListView.builder(
+                itemCount: result.data["sales_report_venta"].length,
+                itemBuilder: (BuildContext context, int index){
+                  return SaleCard(
+                   key: UniqueKey(),
+                   timeOfPurchase: result.data["sales_report_venta"][index]["hora_fecha"].toString(),
+                   itemName: result.data["sales_report_venta"][index]["item"]["nombre"],
+                    itemPrice: result.data["sales_report_venta"][index]["item"]["precio"].toString(),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );
   }
+}
+
+class TodoApp extends StatelessWidget {
+  GraphQLClient client;
+  final TextEditingController controller = new TextEditingController();
+  initMethod(context) {
+    client = GraphQLProvider.of(context).value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => initMethod(context));
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        heroTag: "Tag",
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context1) {
+                return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                    title: Text("Add task"),
+                    content: Form(
+                        child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              TextField(
+                                controller: controller,
+                                decoration: InputDecoration(labelText: "Task"),
+                              ),
+                              Center(
+                                  child: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: RaisedButton(
+                                          elevation: 7,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(12),
+                                          ),
+                                          color: Colors.black,
+                                          onPressed: () async {
+                                            await client.mutate(
+                                              MutationOptions(
+                                                documentNode: gql(addVentaByItemId(
+                                                    controller.text)),
+                                              ),
+                                            );
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Add",
+                                            style: TextStyle(color: Colors.white),
+                                          ))))
+                            ])));
+              });
+        },
+        child: Icon(Icons.add),
+      ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("To-Do"),
+      ),
+      body: Center(
+        child: Query(
+          options: QueryOptions(documentNode: gql(fetchQuery()), pollInterval: 1),
+          builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
+            if (result.hasException) {
+              return Text(result.exception.toString());
+            }
+            if (result.loading) {
+              return Text('Loading');
+            }
+
+            return ListView.builder(
+              itemCount: result.data["sales_report_venta"].length,
+              itemBuilder: (BuildContext context, int index) {
+                return SaleCard(
+                  key: UniqueKey(),
+                  timeOfPurchase: result.data["sales_report_venta"][index]["hora_fecha"].toString(),
+                  itemName: result.data["sales_report_venta"][index]["item"]["nombre"],
+                  itemPrice: result.data["sales_report_venta"][index]["item"]["precio"].toString(),
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class SalesPage extends StatelessWidget{
+  GraphQLClient client;
+  final TextEditingController controller = new TextEditingController();
+  initMethod(context) {
+    client = GraphQLProvider.of(context).value;
+  }
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => initMethod(context));
+
+    return Scaffold(
+      backgroundColor: darkBlue,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+      ),
+      body: Center(
+        child: Theme(
+          data: ThemeData(
+            canvasColor: Colors.transparent
+          ),
+          child: Query(
+            options: QueryOptions(documentNode: gql(fetchQuery()), pollInterval: 1),
+            builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
+              if (result.hasException) {
+                return Text(result.exception.toString());
+              }
+              if (result.loading) {
+                return Text('Loading');
+              }
+
+              return ListView.builder(
+                itemCount: result.data["sales_report_venta"].length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SaleCard(
+                    key: UniqueKey(),
+                    timeOfPurchase: result.data["sales_report_venta"][index]["hora_fecha"].toString(),
+                    itemName: result.data["sales_report_venta"][index]["item"]["nombre"],
+                    itemPrice: result.data["sales_report_venta"][index]["item"]["precio"].toString(),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ),
+      bottomNavigationBar: FABBottomAppBar(
+        //centerItemText: 'A',
+        backgroundColor: Colors.white,
+        color: mediumBlue,
+        selectedColor: brightBlue,
+        notchedShape: CircularNotchedRectangle(),
+        //onTabSelected: //Iplement on tabSelected,
+        items: [
+          FABBottomAppBarItem(iconData: Icons.menu, text: 'This'),
+          FABBottomAppBarItem(iconData: Icons.layers, text: 'Is'),
+          FABBottomAppBarItem(iconData: Icons.dashboard, text: 'Bottom'),
+          FABBottomAppBarItem(iconData: Icons.info, text: 'Bar'),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: _buildFab(
+          context), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget _buildFab(BuildContext context) {
+
+      return FloatingActionButton(
+        backgroundColor: lightBlue,
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context1) {
+                return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                    title: Text("Add task"),
+                    content: Form(
+                        child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              TextField(
+                                controller: controller,
+                                decoration: InputDecoration(labelText: "Task"),
+                              ),
+                              Center(
+                                  child: Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: RaisedButton(
+                                          elevation: 7,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(12),
+                                          ),
+                                          color: Colors.black,
+                                          onPressed: () async {
+                                            await client.mutate(
+                                              MutationOptions(
+                                                documentNode: gql(addVentaByItemId(
+                                                    controller.text)),
+                                              ),
+                                            );
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Add",
+                                            style: TextStyle(color: Colors.white),
+                                          ))))
+                            ])));
+              });
+        },
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+        elevation: 2.0,
+      );
+  }
+
+
+
 }

@@ -13,7 +13,7 @@ void main(){
         client: graphQlObject.client,
         child: CacheProvider(
           child: MaterialApp(
-            theme: ThemeData.dark(),
+            theme: ThemeData.light(),
             home: SplashPage(),
 
           ),
@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Daily sales',
       theme: ThemeData(
         primarySwatch: Colors.blue,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:salesapp/UserInterface/sales_page.dart';
+import 'package:salesapp/UserInterface/login_page.dart';
 import 'package:salesapp/models/global.dart';
 import 'package:splashscreen/splashscreen.dart';
-
 
 
 class SplashPage extends StatefulWidget {
@@ -15,19 +14,12 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return new SplashScreen(
         seconds: 2,
-        navigateAfterSeconds: new SalesPage(),
-        title: new Text('Welcome In S',
-          style: new TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0
-          ),),
+        navigateAfterSeconds: new LoginScreen(),
         image: new Image.asset('images/p_logo.png'),
         backgroundColor: Colors.white,
         styleTextUnderTheLoader: new TextStyle(),
         photoSize: 100.0,
-        onClick: ()=>print("Count Impatience"),
-        loaderColor: mediumBlue
-    );
+        onClick: () => print("Count Impatience"),
+        loaderColor: mediumBlue);
   }
 }
-

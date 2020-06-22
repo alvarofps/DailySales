@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
-Color darkGreyColor = new Color(0xFF212128);
-Color redButtonColor = new Color(0xFFDC4F64);
-Color newWhite = new Color(0xFFDC4F64);
-Color lightBlue = new Color(0xFFB3EFFF);
-Color brightBlue = new Color(0xFF00CFFF);
-Color mediumBlue = new Color(0xFF046B99);
-Color darkBlue = new Color(0xFF1C304A);
-Color blackText = new Color(0xFF000000);
+Color darkGreyColor = Color(0xFF212128);
+Color redButtonColor =  Color(0xFFDC4F64);
+Color newWhite = Color(0xFFDC4F64);
+Color lightBlue =  Color(0xFFB3EFFF);
+Color brightBlue =  Color(0xFF00CFFF);
+Color mediumBlue =  Color(0xFF046B99);
+Color darkBlue =  Color(0xFF1C304A);
+Color blackText =  Color(0xFF000000);
+
+const Color primaryBlue =  Color(0xFF1C304A);
+const Color primaryLightBlue =  Color(0xFFB3EFFF);
 
 
-TextStyle homePage = new TextStyle(
+TextStyle homePageFont = new TextStyle(
     fontFamily: 'Avenir',
     fontSize: 25,
     fontWeight: FontWeight.bold,
@@ -21,3 +24,15 @@ TextStyle darkGreyFont = new TextStyle(
     fontSize: 19,
     fontWeight: FontWeight.bold,
     color: darkGreyColor);
+
+TextStyle homeWhiteFont = new TextStyle(
+    fontFamily: 'Avenir',
+    fontSize: 25,
+    fontWeight: FontWeight.bold,
+    color: Colors.white);
+
+TextStyle homeBlueFont = new TextStyle(
+    fontFamily: 'Avenir',
+    fontSize: 25,
+    fontWeight: FontWeight.bold,
+    color: primaryBlue);

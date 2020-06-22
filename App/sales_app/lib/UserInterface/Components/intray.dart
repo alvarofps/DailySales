@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:salesapp/UserInterface/intray/saleCard.dart';
+import 'package:salesapp/UserInterface/Components//saleCard.dart';
 import 'package:salesapp/models/classes/sale.dart';
 import 'package:salesapp/models/global.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:salesapp/models/global.dart';
+import 'package:salesapp/global/global.dart';
 
 class SaleCard extends StatelessWidget {
   final String timeOfPurchase;

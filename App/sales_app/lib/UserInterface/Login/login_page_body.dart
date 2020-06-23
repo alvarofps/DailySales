@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:salesapp/UserInterface/Components/login_page_background.dart';
-import 'package:salesapp/UserInterface/sales_page.dart';
-import 'package:salesapp/UserInterface/sign_up_page.dart';
-import 'package:salesapp/UserInterface/Components/already_have_an_account_acheck.dart';
+import 'login_page_background.dart';
+import 'package:salesapp/UserInterface/SalesPage/sales_page.dart';
 import 'package:salesapp/UserInterface/Components/rounded_button.dart';
 import 'package:salesapp/UserInterface/Components/rounded_input_field.dart';
 import 'package:salesapp/UserInterface/Components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:salesapp/models/global.dart';
+import 'package:salesapp/global/global.dart';
 
 class Body extends StatelessWidget {
   const Body({

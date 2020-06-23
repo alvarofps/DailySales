@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:salesapp/UserInterface/login_page.dart';
-import 'package:salesapp/UserInterface/sign_up_page.dart';
-import 'package:salesapp/UserInterface/Components/welcome_page_background.dart';
+import 'package:salesapp/UserInterface/Login/login_page.dart';
+import 'package:salesapp/UserInterface/Signup//sign_up_page.dart';
+import 'welcome_page_background.dart';
 import 'package:salesapp/UserInterface/Components/rounded_button.dart';
-import 'package:salesapp/UserInterface/constants.dart';
+import 'package:salesapp/global/global.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Body extends StatelessWidget {

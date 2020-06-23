@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:salesapp/UserInterface/Components/login_page_body.dart';
+import 'sign_up_page_body.dart';
 
-class LoginScreen extends StatelessWidget {
+class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

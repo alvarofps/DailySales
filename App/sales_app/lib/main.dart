@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:salesapp/UserInterface/sales_page.dart';
+import 'package:salesapp/UserInterface/SalesPage/sales_page.dart';
 import 'package:salesapp/services/graphQldata.dart';
 import 'package:flutter/foundation.dart';
-import 'package:salesapp/UserInterface/splash_screen.dart';
+import 'package:salesapp/UserInterface/SplashScreen/splash_screen.dart';
 
 void main(){
   WidgetsFlutterBinding.ensureInitialized();

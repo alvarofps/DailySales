@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:salesapp/UserInterface/login_page.dart';
-import 'package:salesapp/UserInterface/Components/sign_up_page_background.dart';
-import 'package:salesapp/UserInterface/Components/sign_up_page_or_divider.dart';
-import 'package:salesapp/UserInterface/Components/sign_up_page_social_icon.dart';
+import 'package:salesapp/UserInterface/Login/login_page.dart';
+import 'sign_up_page_background.dart';
+import 'sign_up_page_or_divider.dart';
+import 'sign_up_page_social_icon.dart';
 import 'package:salesapp/UserInterface/Components/already_have_an_account_acheck.dart';
 import 'package:salesapp/UserInterface/Components/rounded_button.dart';
 import 'package:salesapp/UserInterface/Components/rounded_input_field.dart';

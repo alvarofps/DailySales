@@ -12,6 +12,10 @@ Color blackText =  Color(0xFF000000);
 const Color primaryBlue =  Color(0xFF1C304A);
 const Color primaryLightBlue =  Color(0xFFB3EFFF);
 
+//Taken from Ui github
+const kPrimaryColor = Color(0xFF6F35A5);
+const kPrimaryLightColor = Color(0xFFF1E6FF);
+
 
 TextStyle homePageFont = new TextStyle(
     fontFamily: 'Avenir',

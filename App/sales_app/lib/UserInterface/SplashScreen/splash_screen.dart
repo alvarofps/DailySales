@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:salesapp/UserInterface/login_page.dart';
-import 'package:salesapp/models/global.dart';
+import 'package:salesapp/UserInterface/Login/login_page.dart';
+import 'package:salesapp/global/global.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 

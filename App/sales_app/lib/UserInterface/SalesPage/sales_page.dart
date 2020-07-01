@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:salesapp/UserInterface/Components/fab_bottom_app_bar.dart';
-import 'package:salesapp/UserInterface/Components//saleCard.dart';
+import 'package:salesapp/UserInterface/Components/saleCard.dart';
 import 'package:salesapp/services/graphQldata.dart';
 import 'package:salesapp/global/global.dart';
 import 'package:flutter/foundation.dart';
@@ -21,6 +21,7 @@ class SalesPage extends StatelessWidget {
   initMethod(context) {
     client = GraphQLProvider.of(context).value;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,7 @@ class SalesPage extends StatelessWidget {
         selectedColor: brightBlue,
         //Shape of the notch
         notchedShape: CircularNotchedRectangle(),
-        //onTabSelected: //TODO: Implement on tabSelected,
+        //onTabSelected: TODO: Implement on tabSelected,
         items: [
           FABBottomAppBarItem(iconData: Icons.menu, text: 'This'),
           FABBottomAppBarItem(iconData: Icons.layers, text: 'Is'),

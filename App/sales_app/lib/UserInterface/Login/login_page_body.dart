@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login_page_background.dart';
-import 'package:salesapp/UserInterface/SalesPage/sales_page.dart';
+import 'package:salesapp/UserInterface/SalesPage/sales_page_stateful.dart';
 import 'package:salesapp/UserInterface/Components/rounded_button.dart';
 import 'package:salesapp/UserInterface/Components/rounded_input_field.dart';
 import 'package:salesapp/UserInterface/Components/rounded_password_field.dart';
@@ -44,7 +44,7 @@ class Body extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return SalesPage();
+                      return SalesPageStateful();
                     },
                   ),
                 );

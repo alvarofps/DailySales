@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:salesapp/UserInterface/Components/fab_bottom_app_bar.dart';
-import 'package:salesapp/UserInterface/Components/saleCard.dart';
+import 'package:salesapp/UserInterface/Graph_Page/graph_page.dart';
 import 'package:salesapp/services/graphQldata.dart';
 import 'package:salesapp/global/global.dart';
 import 'package:flutter/foundation.dart';
@@ -55,7 +56,7 @@ class _SalesPageStatefulState extends State<SalesPageStateful> with TickerProvid
     ///Widget list of the pages to route
     final List<Widget> children = [
       SalesList(),
-      Background(),
+      GraphPage(),
       Background(),
       Background()
 
@@ -79,10 +80,8 @@ class _SalesPageStatefulState extends State<SalesPageStateful> with TickerProvid
         notchedShape: CircularNotchedRectangle(),
         onTabSelected: _selectedTab,
         items: [
-          FABBottomAppBarItem(iconData: Icons.menu, text: 'This'),
-          FABBottomAppBarItem(iconData: Icons.layers, text: 'Is'),
-          FABBottomAppBarItem(iconData: Icons.dashboard, text: 'Bottom'),
-          FABBottomAppBarItem(iconData: Icons.info, text: 'Bar'),
+          FABBottomAppBarItem(iconData: Icons.add_shopping_cart, text: 'Lista'),
+          FABBottomAppBarItem(iconData: Icons.build, text: 'Estadisiticas'),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -156,9 +155,5 @@ class _SalesPageStatefulState extends State<SalesPageStateful> with TickerProvid
       elevation: 10.0,
     );
   }
-
-
-
-
 
 }
